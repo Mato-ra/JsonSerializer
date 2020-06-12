@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "H:\\Eigene Dateien\\VS\\JsonSerializer\\JsonSerializer\\JsonSerializer\\JsonSerializer.csproj": {}
+    "C:\\Users\\rasilama\\Desktop\\JsonSerializer\\JsonSerializer\\JsonSerializer.csproj": {}
   },
   "projects": {
-    "H:\\Eigene Dateien\\VS\\JsonSerializer\\JsonSerializer\\JsonSerializer\\JsonSerializer.csproj": {
+    "C:\\Users\\rasilama\\Desktop\\JsonSerializer\\JsonSerializer\\JsonSerializer.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "H:\\Eigene Dateien\\VS\\JsonSerializer\\JsonSerializer\\JsonSerializer\\JsonSerializer.csproj",
+        "projectUniqueName": "C:\\Users\\rasilama\\Desktop\\JsonSerializer\\JsonSerializer\\JsonSerializer.csproj",
         "projectName": "JsonSerializer",
-        "projectPath": "H:\\Eigene Dateien\\VS\\JsonSerializer\\JsonSerializer\\JsonSerializer\\JsonSerializer.csproj",
+        "projectPath": "C:\\Users\\rasilama\\Desktop\\JsonSerializer\\JsonSerializer\\JsonSerializer.csproj",
         "packagesPath": "C:\\Users\\rasilama\\.nuget\\packages\\",
-        "outputPath": "H:\\Eigene Dateien\\VS\\JsonSerializer\\JsonSerializer\\JsonSerializer\\obj\\",
+        "outputPath": "C:\\Users\\rasilama\\Desktop\\JsonSerializer\\JsonSerializer\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Microsoft\\Xamarin\\NuGet\\",
