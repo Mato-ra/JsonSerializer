@@ -12,27 +12,40 @@ namespace JsonSerializer
             {
                 return "null";
             }
-            if (value.GetType() == typeof(string))
+
+            var t = value.GetType();
+
+            if (t == typeof(string))
             {
                 return SerializeString((string)value);
             }
 
-            if (value.GetType() == typeof(bool))
+            if (t == typeof(bool))
             {
                 return SerializeBoolean((bool)value);
             }
 
-            if (value.GetType() == typeof(int))
+            if (t == typeof(int))
             {
                 return SerializeNumber((int)value);
             }
-            if (value.GetType() == typeof(float))
+            if (t == typeof(float))
             {
                 return SerializeNumber((float)value);
             }
-            if (value.GetType() == typeof(double))
+            if (t == typeof(double))
             {
                 return SerializeNumber((double)value);
+            }
+
+            if (t == typeof(Dictionary<string, string>))
+            {
+                return SerializeObject((Dictionary<string, string>)value);
+            }
+
+            if (t == typeof(string[]))
+            {
+                return SerializeArray((string[])value);
             }
 
 
@@ -42,7 +55,12 @@ namespace JsonSerializer
 
         public static string SerializeStringIfInvalid(string value)
         {
-            if (GetValueType(value) == ValueType.Invalid)
+            if (value == null)
+            {
+                return SerializeNull();
+            }
+
+            if (CheckValueType(value) == ValueType.Invalid)
             {
                 return SerializeString(value);
             }
@@ -54,7 +72,12 @@ namespace JsonSerializer
 
         public static string SerializeStringIfNotString(string value)
         {
-            if (GetValueType(value) != ValueType.String)
+            if (value == null)
+            {
+                return SerializeNull();
+            }
+
+            if (CheckValueType(value) != ValueType.String)
             {
                 return SerializeString(value);
             }

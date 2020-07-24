@@ -8,6 +8,11 @@ namespace JsonSerializer
     {
         public static string AddFormatting(string jsonData)
         {
+            if (jsonData == null)
+            {
+                return null;
+            }
+
             int tabs = 0;
             bool escape = false;
 
@@ -72,6 +77,11 @@ namespace JsonSerializer
         public static string RemoveFormatting(string jsonData)
         {
             var escape = false;
+
+            if (jsonData == null)
+            {
+                return null;
+            }
 
             jsonData = jsonData.Replace(Convert.ToChar(10).ToString(), null).Replace(Convert.ToChar(13).ToString(), null).Replace(Convert.ToChar(9).ToString(), null);
 

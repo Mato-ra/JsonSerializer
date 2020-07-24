@@ -9,25 +9,52 @@ namespace JsonSerializer
     {
         public static string AddKeyValuePair(string jsonObject, string key, string value, bool overwrite)
         {
-            if (GetValueType(jsonObject) != ValueType.Object)
+            return AddKeyValuePair(jsonObject, key, value, overwrite, true);
+        }
+
+        public static string AddKeyValuePair(string jsonObject, KeyValuePair<string, string> kvp, bool overwrite)
+        {
+            return AddKeyValuePair(jsonObject, kvp.Key, kvp.Value, overwrite, true);
+        }
+
+        private static string AddKeyValuePair(string jsonObject, string key, string value, bool overwrite, bool addKeyValuePair)
+        {
+            if (CheckValueType(jsonObject) != ValueType.Object)
             {
                 return jsonObject;
             }
 
             key = SerializeStringIfNotString(key);
 
-            if (GetValueType(value) == ValueType.Invalid)
+            if (CheckValueType(value) == ValueType.Invalid)
             {
                 value = SerializeString(value);
             }
 
             var dict = DeserializeObject(jsonObject);
-            if (overwrite || GetKvpValue(jsonObject, key, true) == null)
-            {
-                dict.Add(key, value);
-            }
+            AddKeyValuePair(dict, key, value, overwrite);
 
             return SerializeObject(dict);
+        }
+
+        public static Dictionary<string, string> AddKeyValuePair(Dictionary<string, string> jsonObject, string key, string value, bool overwrite)
+        {
+            return AddKeyValuePair(jsonObject, new KeyValuePair<string, string>(key, value), overwrite, true);
+        }
+
+        public static Dictionary<string, string> AddKeyValuePair(Dictionary<string, string> jsonObject, KeyValuePair<string, string> kvp, bool overwrite)
+        {
+            return AddKeyValuePair(jsonObject, kvp, overwrite, true);
+        }
+
+        private static Dictionary<string, string> AddKeyValuePair(Dictionary<string, string> jsonObject, KeyValuePair<string, string> kvp, bool overwrite, bool addKeyValuePair)
+        {
+            if (overwrite || GetKvpValue(jsonObject, kvp.Key, true) == null)
+            {
+                jsonObject[kvp.Key] = kvp.Value;
+            }
+
+            return jsonObject;
         }
 
         public static string AddArrayEntry(string jsonArray, string value)
@@ -37,7 +64,7 @@ namespace JsonSerializer
                 return jsonArray;
             }
 
-            if (GetValueType(jsonArray) != ValueType.Array)
+            if (CheckValueType(jsonArray) != ValueType.Array)
             {
                 return jsonArray;
             }
@@ -52,7 +79,7 @@ namespace JsonSerializer
                 return jsonArray;
             }
 
-            if (GetValueType(value) == ValueType.Invalid)
+            if (CheckValueType(value) == ValueType.Invalid)
             {
                 value = SerializeString(value);
             }
@@ -62,51 +89,62 @@ namespace JsonSerializer
             return arr.ToArray();
         }
 
-        public static string AddValue(string jsonData, string[] keysOrIndices, string value, bool caseSensitive, bool overwrite, bool addArrayEntry)
+        public static string AddValue(string jsonData, string[] keysOrIndices, string value, bool caseSensitive, bool overwrite, bool addKeyValuePair, bool addArrayEntry)
         {
-            if (GetValueType(value) == ValueType.Invalid)
+            if (CheckValueType(value) == ValueType.Invalid)
             {
                 value = SerializeString(value);
             }
 
             if (keysOrIndices.Length > 1)
             {
-                if (GetValueType(jsonData) == ValueType.Object)
+                if (CheckValueType(jsonData) == ValueType.Object)
                 {
                     var key = keysOrIndices[0];
                     var a = RemoveKeyOrIndex(keysOrIndices, 0);
                     var oldValue = GetValue(jsonData, key, caseSensitive);
-                    var newValue = AddValue(jsonData, a, value, caseSensitive, overwrite, addArrayEntry);
+                    var newValue = AddValue(jsonData, a, value, caseSensitive, overwrite, addKeyValuePair, addArrayEntry);
                     return AddKeyValuePair(jsonData, key, newValue, true);
                 }
 
-                if (GetValueType(jsonData) == ValueType.Array)
+                if (CheckValueType(jsonData) == ValueType.Array)
                 {
                     var index = keysOrIndices[0];
                     var a = RemoveKeyOrIndex(keysOrIndices, 0);
                     var oldValue = GetValue(jsonData, index, caseSensitive);
-                    var newValue = AddValue(jsonData, a, value, caseSensitive, overwrite, addArrayEntry);
+                    var newValue = AddValue(jsonData, a, value, caseSensitive, overwrite, addKeyValuePair, addArrayEntry);
                     return EditArrayEntry(jsonData, index, newValue);
                 }
             }
 
 
-            if (GetValueType(jsonData) == ValueType.Object)
+            if (CheckValueType(jsonData) == ValueType.Object)
             {
                 var key = keysOrIndices[0];
                 if (addArrayEntry)
                 {
                     var targetValue = GetValue(jsonData, key, true);
-                    if (GetValueType(value) == ValueType.Array)
+                    if (CheckValueType(targetValue) == ValueType.Array)
                     {
-                        return AddArrayEntry(jsonData, targetValue);
+                        return AddKeyValuePair(jsonData, key, AddArrayEntry(targetValue, value), true);
+                    }
+                }
+
+                if (!addKeyValuePair)
+                {
+                    if (GetValue(jsonData, key, caseSensitive) != null){
+                        return AddKeyValuePair(jsonData, key, value, overwrite);
+                    }
+                    else
+                    {
+                        return jsonData;
                     }
                 }
 
                 return AddKeyValuePair(jsonData, key, value, overwrite);
             }
 
-            if (GetValueType(jsonData) == ValueType.Array)
+            if (CheckValueType(jsonData) == ValueType.Array)
             {
                 var index = keysOrIndices[0];
                 return EditArrayEntry(jsonData, index, value);
@@ -115,6 +153,25 @@ namespace JsonSerializer
             return jsonData;
         }
 
+        public static string MergeObjects(string[] jsonObjects, bool overwrite)
+        {
+            if (jsonObjects == null || jsonObjects.Length == 0)
+            {
+                return "{}";
+            }
 
+            var result = DeserializeObject(jsonObjects[0]);
+
+            for(int i = 1; i < jsonObjects.Length; i++)
+            {
+                var o = DeserializeObject(jsonObjects[i]);
+                foreach(var kvp in o)
+                {
+                    AddKeyValuePair(result, kvp, overwrite);
+                }
+            }
+
+            return SerializeObject(result);
+        }
     }
 }

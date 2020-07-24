@@ -171,7 +171,7 @@ namespace JsonSerializer
 
             jsonArray = RemoveFormatting(jsonArray);
 
-            if (jsonArray == "[]")
+            if (jsonArray == null || jsonArray == "[]")
             {
                 return result.ToArray();
             }
@@ -241,6 +241,8 @@ namespace JsonSerializer
 
         public static Dictionary<string, string> DeserializeObject(string jsonObject)
         {
+            
+
             var result = new Dictionary<string, string>();
             var bracket = 0;
             var kvpIndexArray = new int[4];
@@ -249,7 +251,7 @@ namespace JsonSerializer
 
             jsonObject = RemoveFormatting(jsonObject);
 
-            if (jsonObject == "{}")
+            if (jsonObject == null || jsonObject == "{}")
             {
                 return result;
             }

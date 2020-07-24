@@ -7,3 +7,12 @@ H:\Eigene Dateien\VS\JsonSerializer\JsonSerializer\JsonSerializer\obj\Debug\nets
 H:\Eigene Dateien\VS\JsonSerializer\JsonSerializer\JsonSerializer\obj\Debug\netstandard2.0\JsonSerializer.AssemblyInfo.cs
 H:\Eigene Dateien\VS\JsonSerializer\JsonSerializer\JsonSerializer\obj\Debug\netstandard2.0\JsonSerializer.dll
 H:\Eigene Dateien\VS\JsonSerializer\JsonSerializer\JsonSerializer\obj\Debug\netstandard2.0\JsonSerializer.pdb
+C:\Users\rasilama\Desktop\JsonSerializer\JsonSerializer\bin\Debug\netstandard2.0\JsonSerializer.deps.json
+C:\Users\rasilama\Desktop\JsonSerializer\JsonSerializer\bin\Debug\netstandard2.0\JsonSerializer.dll
+C:\Users\rasilama\Desktop\JsonSerializer\JsonSerializer\bin\Debug\netstandard2.0\JsonSerializer.pdb
+C:\Users\rasilama\Desktop\JsonSerializer\JsonSerializer\obj\Debug\netstandard2.0\JsonSerializer.csprojAssemblyReference.cache
+C:\Users\rasilama\Desktop\JsonSerializer\JsonSerializer\obj\Debug\netstandard2.0\JsonSerializer.csproj.CoreCompileInputs.cache
+C:\Users\rasilama\Desktop\JsonSerializer\JsonSerializer\obj\Debug\netstandard2.0\JsonSerializer.AssemblyInfoInputs.cache
+C:\Users\rasilama\Desktop\JsonSerializer\JsonSerializer\obj\Debug\netstandard2.0\JsonSerializer.AssemblyInfo.cs
+C:\Users\rasilama\Desktop\JsonSerializer\JsonSerializer\obj\Debug\netstandard2.0\JsonSerializer.dll
+C:\Users\rasilama\Desktop\JsonSerializer\JsonSerializer\obj\Debug\netstandard2.0\JsonSerializer.pdb

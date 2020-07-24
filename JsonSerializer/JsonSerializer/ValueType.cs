@@ -18,7 +18,7 @@ namespace JsonSerializer
             Invalid,
         }
 
-        public static ValueType GetValueType(string value)
+        public static ValueType CheckValueType(string value)
         {
             if (value == null)
             {

@@ -34,7 +34,7 @@ namespace JsonSerializer
 
         public static string GetValue(string jsonData, string keyOrIndex, bool caseSensitive)
         {
-            switch (GetValueType(jsonData))
+            switch (CheckValueType(jsonData))
             {
                 case ValueType.Object:
                     return GetKvpValue(jsonData, keyOrIndex, caseSensitive);
@@ -45,6 +45,34 @@ namespace JsonSerializer
                 default:
                     return null;
             }
+        }
+
+        public static string GetValue(string jsonData, string[] keysOrIndices, bool caseSensitive)
+        {
+            if (jsonData == null || keysOrIndices == null)
+            {
+                return null;
+            }
+
+            if (keysOrIndices.Length > 1)
+            {
+                switch (CheckValueType(jsonData))
+                {
+                    case ValueType.Object:
+                        return GetValue(GetValue(jsonData, keysOrIndices[0], caseSensitive), RemoveKeyOrIndex(keysOrIndices, 0), caseSensitive);
+
+                    case ValueType.Array:
+                        return GetValue(GetValue(jsonData, keysOrIndices[0], caseSensitive), RemoveKeyOrIndex(keysOrIndices, 0), caseSensitive);
+
+                    default:
+                        return null;
+                }
+            }
+            else
+            {
+                return GetValue(jsonData, keysOrIndices[0], caseSensitive);
+            }
+            
         }
 
         public static string GetArrayEntry(string jsonArray, string index)
@@ -139,7 +167,7 @@ namespace JsonSerializer
 
         public static string EditArrayEntry(string jsonArray, string index, string value)
         {
-            if (GetValueType(jsonArray) != ValueType.Array)
+            if (CheckValueType(jsonArray) != ValueType.Array)
             {
                 return jsonArray;
             }
@@ -151,7 +179,7 @@ namespace JsonSerializer
                 return jsonArray;
             }
 
-            if (GetValueType(value) == ValueType.Invalid)
+            if (CheckValueType(value) == ValueType.Invalid)
             {
                 value = SerializeString(value);
             }
@@ -164,6 +192,18 @@ namespace JsonSerializer
             }
 
             return SerializeArray(arr.ToArray());
+        }
+
+        public static string EditValue(string jsonData, string[] keysOrIndices, string newValue, bool caseSensitive)
+        {
+            return AddValue(jsonData, keysOrIndices, newValue, caseSensitive, true, false, false);
+        }
+
+        public enum ArrayEntryOrKvpValue
+        {
+            Either,
+            ArrayEntry,
+            KvpValue,
         }
 
     }
