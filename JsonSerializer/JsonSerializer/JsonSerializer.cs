@@ -124,6 +124,11 @@ namespace JsonSerializer
 
         public static KeyValuePair<string, string> GetKeyValuePair(string jsonObject, string key, bool caseSensitive)
         {
+            if (jsonObject == null)
+            {
+                return new KeyValuePair<string, string>(null, null);
+            }
+
             var dict = DeserializeObject(jsonObject);
 
             return GetKeyValuePair(dict, key, caseSensitive);
@@ -132,6 +137,11 @@ namespace JsonSerializer
         public static KeyValuePair<string, string> GetKeyValuePair(Dictionary<string, string> jsonObject, string key, bool caseSensitive)
         {
             var dict = jsonObject;
+
+            if (dict == null)
+            {
+                return new KeyValuePair<string, string> ( null, null );
+            }
 
             if (!caseSensitive)
             {

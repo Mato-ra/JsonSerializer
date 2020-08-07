@@ -8,6 +8,11 @@ namespace JsonSerializer
     {
         public static string DeserializeString(string jsonString)
         {
+            if (jsonString == null)
+            {
+                return null;
+            }
+
             var result = String.Empty;
 
             if (jsonString[0] == '"')
@@ -153,6 +158,11 @@ namespace JsonSerializer
 
         public static KeyValuePair<string, string> DeserializeKeyValuePair(string jsonData)
         {
+            if (jsonData == null)
+            {
+                new KeyValuePair<string, string> ( null, null );
+            }
+
             jsonData = RemoveFormatting(jsonData);
             var i = jsonData.IndexOf(',');
             var result = new KeyValuePair<string, string>(jsonData.Substring(0, i - 1), jsonData.Substring(i + 2));
@@ -163,6 +173,11 @@ namespace JsonSerializer
 
         public static string[] DeserializeArray(string jsonArray)
         {
+            if (jsonArray == null)
+            {
+                return null;
+            }
+
             var result = new List<string>();
             var bracket = 0;
             var entryIndexArray = new int[2];
@@ -241,7 +256,10 @@ namespace JsonSerializer
 
         public static Dictionary<string, string> DeserializeObject(string jsonObject)
         {
-            
+            if (jsonObject == null)
+            {
+                return null;
+            }
 
             var result = new Dictionary<string, string>();
             var bracket = 0;

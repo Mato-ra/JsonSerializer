@@ -49,12 +49,27 @@ namespace JsonSerializer
 
         public static string QueryJsonData(string jsonData, string queryString, string[] keysOrIndices, int depth, bool caseSensitive, bool keyIsMandatory, ArrayEntryOrKvpValue arrayEntryOrKvpValue)
         {
+            if (jsonData == null)
+            {
+                return null;
+            }
+
             var newValue = QueryJsonData(GetValue(jsonData, keysOrIndices, caseSensitive), queryString, depth, caseSensitive, keyIsMandatory, arrayEntryOrKvpValue);
             return EditValue(jsonData, keysOrIndices, newValue, caseSensitive);
         }
 
         public static string QueryJsonData(string jsonData, string queryString, int depth, bool caseSensitive, bool keyIsMandatory, ArrayEntryOrKvpValue arrayEntryOrKvpValue)
         {
+            if (queryString == null)
+            {
+                return jsonData;
+            }
+
+            if (jsonData == null)
+            {
+                return null;
+            }
+
             var paths = FindObjects(jsonData, ReadQueryString(queryString, keyIsMandatory, arrayEntryOrKvpValue), false, depth);
             var result = new Dictionary<string, string>();
 
